@@ -35,7 +35,7 @@ export function Leaderboards() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const request = await fetch("http://localhost:8000/leaderboards");
+        const request = await fetch("/api/leaderboards");
         const leaderboards = await request.json();
         setPlayers(leaderboards);
       } catch {

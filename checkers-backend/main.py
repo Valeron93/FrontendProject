@@ -2,17 +2,9 @@ import random
 from dataclasses import dataclass
 
 from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 
-app = FastAPI()
-
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["http://localhost:5173"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+api = FastAPI()
 
 
 def random_username() -> str:
@@ -35,7 +27,13 @@ class LeaderboardItem:
 leaderboards = sorted([LeaderboardItem.random() for _ in range(20)], key=lambda x: x.rating, reverse=True)
 
 
-@app.get("/leaderboards")
+@api.get("/leaderboards")
 def get_leaderboards() -> list[LeaderboardItem]:
 
     return leaderboards
+
+
+app = FastAPI()
+
+app.mount("/api", api)
+app.mount("/", StaticFiles(directory="../checkers/dist", html=True))
