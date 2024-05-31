@@ -44,7 +44,6 @@ leaderboards = sorted(
 
 @api.get("/leaderboards")
 def get_leaderboards() -> list[LeaderboardItem]:
-
     return leaderboards
 
 
